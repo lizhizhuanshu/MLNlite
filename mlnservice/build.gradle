@@ -1,0 +1,87 @@
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.kapt)
+}
+
+android {
+    namespace 'com.immomo.mls'
+    compileSdk project.compileSdkVersion
+    defaultConfig {
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [isSdk: 'true']
+            }
+        }
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_TOOLCHAIN=clang -D'
+                cppFlags "-frtti -fexceptions"
+                cFlags "-fPIE"
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
+    }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    ndkVersion ="25.2.9519653"
+}
+
+
+dependencies {
+    compileOnly libs.legacy.support.v4
+
+//    api libs.cpp.shared
+    implementation libs.recyclerview
+    implementation libs.appcompat
+    implementation libs.material
+
+    implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.androidx.lifecycle.common
+
+    
+
+    compileOnly project(":mlncore")
+    compileOnly project(':HotReload')
+    api project(':annotation')
+    kapt project(':processor')
+
+    testImplementation libs.junit
+    testImplementation libs.mockito
+
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}

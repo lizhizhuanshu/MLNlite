@@ -1,0 +1,33 @@
+
+buildscript {
+    dependencies {
+        classpath libs.kotlin
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:unchecked"
+}
+
+dependencies {
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
+    api libs.javapoet
+    implementation project(':annotation')
+    implementation libs.kotlin.stdlib
+}

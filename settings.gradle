@@ -1,0 +1,31 @@
+pluginManagement {
+    repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+        maven{ url "https://s01.oss.sonatype.org/content/repositories/releases/"}
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "MLN-lite"
+include ':app'
+include ':mlncore'
+include ':mlnservice'
+include ':HotReload'
+include ':processor'
+include ':annotation'
+include ':scan'
+include ':HotReload_Empty'

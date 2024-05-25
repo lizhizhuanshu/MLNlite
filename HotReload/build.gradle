@@ -1,0 +1,86 @@
+
+plugins {
+    alias(libs.plugins.android.library)
+    id 'com.google.protobuf'
+}
+
+
+
+android {
+    namespace 'com.xfy.hotreload'
+
+    compileSdk project.compileSdkVersion
+    defaultConfig {
+
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+    }
+
+
+
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/main/proto'
+            }
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+
+
+protobuf {
+    protobuf {
+        protoc {
+            if (osdetector.os == "osx") {
+                artifact = 'com.google.protobuf:protoc:3.0.0:osx-x86_64'
+            } else {
+                artifact = 'com.google.protobuf:protoc:3.0.0'
+            }
+        }
+    }
+    plugins {
+        javalite {
+            if (osdetector.os == "osx") {
+                artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0:osx-x86_64'
+            } else {
+                artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+            }
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // In most cases you don't need the full Java output
+                // if you use the lite output.
+                remove java
+            }
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+}
+
+
+
+dependencies {
+    implementation libs.protobuf.lite
+}
+
