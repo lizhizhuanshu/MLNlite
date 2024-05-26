@@ -1,18 +1,22 @@
 /**
-  * Created by MomoLuaNative.
-  * Copyright (c) 2019, Momo Group. All rights reserved.
-  *
-  * This source code is licensed under the MIT.
-  * For the full copyright and license information,please view the LICENSE file in the root directory of this source tree.
-  */
+ * Created by MomoLuaNative.
+ * Copyright (c) 2019, Momo Group. All rights reserved.
+ *
+ * This source code is licensed under the MIT.
+ * For the full copyright and license information,please view the LICENSE file in the root directory of this source tree.
+ */
 package com.immomo.mls.util;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+
+import androidx.core.app.ActivityCompat;
 
 import com.immomo.mls.receiver.ConnectionStateChangeBroadcastReceiver;
 
@@ -135,6 +139,9 @@ public class NetworkUtil {
             return NetworkType.NETWORK_NONE;
         }
 
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return NetworkType.NETWORK_UNKNOWN;
+        }
         int type = tm.getNetworkType();
         switch (type) {
             case TelephonyManager.NETWORK_TYPE_GPRS:
