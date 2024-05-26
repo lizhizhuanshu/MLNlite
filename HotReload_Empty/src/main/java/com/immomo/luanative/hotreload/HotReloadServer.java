@@ -63,4 +63,9 @@ public class HotReloadServer implements IHotReloadServer {
     public String getSerial() {
         return null;
     }
+
+    @Override
+    public byte[] getCode(String path) {
+        return null;
+    }
 }
