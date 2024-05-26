@@ -7,6 +7,9 @@
   */
 package com.immomo.mls;
 
+import android.util.Log;
+
+import com.immomo.mls.adapter.impl.BeforeLuaAbortImpl;
 import com.immomo.mls.util.FileUtil;
 import com.immomo.mls.util.IOUtil;
 import com.immomo.mls.utils.LuaUrlUtils;
@@ -90,7 +93,11 @@ public class MLSResourceFinder implements ResourceFinder {
 
     @Override
     public byte[] getContent(String name) {
-        return getAssetsData(name);
+        byte[] result = getAssetsData(name);
+        if (result == null){
+            result = HotReloadHelper.getCode(name);
+        }
+        return result;
     }
 
     @Override

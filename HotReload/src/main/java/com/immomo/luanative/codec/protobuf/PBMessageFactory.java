@@ -49,6 +49,12 @@ public class PBMessageFactory {
             case PackageConst.TYPE_IPADDRESS: {
                 return PBIPAddressCommand.pbipaddresscommand.parseFrom(data);
             }
+            case PackageConst.TYPE_GET_CODE_REQUEST: {
+                return PBGetCodeRequest.pb_get_code_request.parseFrom(data);
+            }
+            case PackageConst.TYPE_GET_CODE_RESPONSE :{
+                return PBGetCodeResponse.pb_get_code_response.parseFrom(data);
+            }
             default: {
                 throw new Exception("未知类型的消息");
             }

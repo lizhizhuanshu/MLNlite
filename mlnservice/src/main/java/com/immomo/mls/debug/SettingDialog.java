@@ -7,6 +7,7 @@
  */
 package com.immomo.mls.debug;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatDialog;
 
+import com.immomo.luanative.hotreload.HotReloadServer;
 import com.immomo.mls.HotReloadHelper;
 import com.immomo.mls.MLSAdapterContainer;
 import com.immomo.mls.MLSEngine;
@@ -38,6 +40,8 @@ public class SettingDialog extends AppCompatDialog implements View.OnClickListen
     private EditText hr_use_port;
     private EditText hr_serial;
 
+    private EditText hr_ip;
+
     private boolean showDebug;
     private boolean showHotReload;
 
@@ -57,6 +61,8 @@ public class SettingDialog extends AppCompatDialog implements View.OnClickListen
         initView();
     }
 
+
+    @SuppressLint("MissingInflatedId")
     private void initView() {
         setContentView(R.layout.layout_setting_view);
         View debugContainer = findViewById(R.id.lua_setting_debug);
@@ -72,7 +78,7 @@ public class SettingDialog extends AppCompatDialog implements View.OnClickListen
 
         hr_use_port = findViewById(R.id.hr_use_port);
         hr_serial = findViewById(R.id.hr_serial);
-
+        hr_ip = findViewById(R.id.hr_ip);
         findViewById(R.id.btn_cancel).setOnClickListener(this);
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         findViewById(R.id.btn_start_log).setOnClickListener(this);
@@ -116,11 +122,18 @@ public class SettingDialog extends AppCompatDialog implements View.OnClickListen
     }
 
     private void setHotReload() {
+        String ip = hr_ip.getText().toString();
         String ps = hr_use_port.getText().toString();
-        try {
-            HotReloadHelper.setUseUSB(Integer.parseInt(ps));
-        } catch (Throwable t) {
+        int port = 0;
+        try{
+            port = Integer.parseInt(ps);
+        }catch (Throwable t) {
             MLSAdapterContainer.getToastAdapter().toast("请输入数字");
+        }
+        if(!TextUtils.isEmpty(ip)) {
+            HotReloadHelper.setUseWifi(ip, port);
+        }else{
+            HotReloadHelper.setUseUSB(port);
         }
         Editable editable = hr_serial.getText();
         if (editable != null) {

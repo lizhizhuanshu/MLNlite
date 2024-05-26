@@ -115,6 +115,10 @@ public class PackageConst {
 
     public static final int TYPE_IPADDRESS = PBBaseCommand.pbbasecommand.InstructionType.IPADDRESS_VALUE;
 
+
+    public static final int TYPE_GET_CODE_REQUEST = PBBaseCommand.pbbasecommand.InstructionType.GET_CODE_REQUEST_VALUE;
+
+    public static final int TYPE_GET_CODE_RESPONSE = PBBaseCommand.pbbasecommand.InstructionType.GET_CODE_RESPONSE_VALUE;
     /**
      * The constant INDEX_MAGIC.
      */

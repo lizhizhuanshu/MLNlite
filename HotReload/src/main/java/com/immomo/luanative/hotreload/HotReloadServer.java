@@ -7,11 +7,16 @@
   */
 package com.immomo.luanative.hotreload;
 
+import android.util.Log;
+import android.util.LongSparseArray;
+
 import com.immomo.luanative.codec.PBCommandFactory;
 import com.immomo.luanative.codec.encode.EncoderFactory;
 import com.immomo.luanative.codec.encode.iEncoder;
 import com.immomo.luanative.codec.protobuf.PBCreateCommand;
 import com.immomo.luanative.codec.protobuf.PBEntryFileCommand;
+import com.immomo.luanative.codec.protobuf.PBGetCodeRequest;
+import com.immomo.luanative.codec.protobuf.PBGetCodeResponse;
 import com.immomo.luanative.codec.protobuf.PBIPAddressCommand;
 import com.immomo.luanative.codec.protobuf.PBMoveCommand;
 import com.immomo.luanative.codec.protobuf.PBReloadCommand;
@@ -28,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * The type Hot reload server.
@@ -149,6 +155,7 @@ public class HotReloadServer implements IHotReloadServer {
 
     private void writeMsg(Object msg) {
         if (currentClient != null) {
+            Log.e("HotReloadServer", "writeMsg: " + msg.toString());
             currentClient.writeData(encoder.encode(msg));
         }
     }
@@ -245,6 +252,43 @@ public class HotReloadServer implements IHotReloadServer {
         return PBCommandFactory.Serial;
     }
 
+    private static class GetCodeCallback{
+        private byte[] code;
+    }
+
+    final private LongSparseArray<GetCodeCallback> callbacks = new LongSparseArray<>();
+
+    final private AtomicLong callbackId = new AtomicLong(0);
+
+    private void putCallback(long id, GetCodeCallback callback){
+        synchronized (callbacks) {
+            callbacks.put(id, callback);
+        }
+    }
+
+    private GetCodeCallback getCallback(long id){
+        synchronized (callbacks) {
+            return callbacks.get(id);
+        }
+    }
+    @Override
+    public byte[] getCode(String path) {
+        GetCodeCallback callback = new GetCodeCallback();
+        long id = callbackId.incrementAndGet();
+        putCallback(id, callback);
+        writeMsg(PBCommandFactory.getGetCodeRequest(id, path));
+        synchronized (callback) {
+            try {
+                callback.wait(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }finally {
+                callbacks.remove(id);
+            }
+        }
+        return callback.code;
+    }
+
     //
     //    ---------- usb client
     //
@@ -309,6 +353,15 @@ public class HotReloadServer implements IHotReloadServer {
             PBIPAddressCommand.pbipaddresscommand cmd = (PBIPAddressCommand.pbipaddresscommand) msg;
             String ip = cmd.getMacIPAddress();
             listener.onIpChanged(ip);
+        }else if(msg instanceof PBGetCodeResponse.pb_get_code_response){
+            PBGetCodeResponse.pb_get_code_response response = (PBGetCodeResponse.pb_get_code_response) msg;
+            GetCodeCallback callback = getCallback(response.getId());
+            if(callback != null){
+                callback.code = response.getCode().toByteArray();
+                synchronized (callback) {
+                    callback.notify();
+                }
+            }
         }
     }
 

@@ -37,5 +37,8 @@ message pbbasecommand {
                 COVERAGEDETAIL = 14;
                 COVREAGEVISUAL = 15;
                 IPADDRESS = 16;
+
+                GET_CODE_REQUEST = 17;
+                GET_CODE_RESPONSE = 18;
             }
 }

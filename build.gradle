@@ -25,7 +25,7 @@ allprojects {
 
         compileSdkVersion = 34
         minSdkVersion = 22
-        targetSdkVersion = 34
+        targetSdkVersion = 28
 
         androidXVersion = "1.1.0"
 

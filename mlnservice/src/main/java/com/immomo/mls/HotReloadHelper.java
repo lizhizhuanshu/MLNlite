@@ -8,6 +8,7 @@
 package com.immomo.mls;
 
 import android.text.TextUtils;
+import android.webkit.URLUtil;
 
 import androidx.annotation.IntDef;
 
@@ -207,10 +208,15 @@ public class HotReloadHelper {
                     reloadState.set(RELOADING);
                     HashMap<String, String> p = parseParams(params);
                     Collection<Callback> cs = new ArrayList<>(callbacks);
-                    File file = new File(getHotReloadPath(), relativeEntryFilePath);
+                    String url;
+                    if(URLUtil.isNetworkUrl(entryFilePath)) {
+                        url = entryFilePath;
+                    }else{
+                        url = new File(getHotReloadPath(), relativeEntryFilePath).getAbsolutePath();
+                    }
                     try {
                         for (Callback cb : cs) {
-                            cb.onReload(file.getAbsolutePath(), p, STATE_NORMAL);
+                            cb.onReload(url, p, STATE_NORMAL);
                             do {
                                 Thread.sleep(100);
                             } while (!cb.reloadFinish());
@@ -512,6 +518,10 @@ public class HotReloadHelper {
         } else {
             HotReloadServer.getInstance().startNetClient(wifiIp, wifiPort);
         }
+    }
+
+    public static byte[] getCode(String path) {
+        return HotReloadServer.getInstance().getCode(path);
     }
 
     public static interface Callback {

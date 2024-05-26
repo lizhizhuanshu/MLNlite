@@ -9,12 +9,14 @@ package com.immomo.mls.adapter.impl;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.immomo.mls.Constants;
+import com.immomo.mls.HotReloadHelper;
 import com.immomo.mls.LuaToolUtilInfo;
 import com.immomo.mls.MLSAdapterContainer;
 import com.immomo.mls.MLSEngine;
@@ -500,6 +502,8 @@ public class DefaultScriptReaderImpl implements ScriptReader {
             final String s = url.getUrlWithoutParams();
             File f = new File(s);
             return new String[]{f.getParent(), f.getName()};
+        } else if (url.isNetworkType()) {
+            return new String[]{HotReloadHelper.getHotReloadPath().getAbsolutePath(),url.getEntryFile()};
         } else {
             path = new File(FileUtil.getLuaDir(), FileUtil.getUrlPath(url.getUrlWithoutParams())).getAbsolutePath();
         }

@@ -7,7 +7,7 @@
   */
 package com.immomo.luanative.codec;
 
-import android.annotation.SuppressLint;
+
 import android.os.Build;
 
 import com.google.protobuf.ByteString;
@@ -17,6 +17,7 @@ import com.immomo.luanative.codec.protobuf.PBCloseCommand;
 import com.immomo.luanative.codec.protobuf.PBDeviceCommand;
 import com.immomo.luanative.codec.protobuf.PBEntryFileCommand;
 import com.immomo.luanative.codec.protobuf.PBErrorCommand;
+import com.immomo.luanative.codec.protobuf.PBGetCodeRequest;
 import com.immomo.luanative.codec.protobuf.PBLogCommand;
 import com.immomo.luanative.codec.protobuf.PBPingCommand;
 import com.immomo.luanative.codec.protobuf.PBPongCommand;
@@ -91,7 +92,7 @@ public class PBCommandFactory {
         return builder.build();
     }
 
-    @SuppressLint("MissingPermission")
+//    @SuppressLint("MissingPermission")
     public static PBBaseCommand.pbbasecommand getBaseCommand(int code) {
         PBBaseCommand.pbbasecommand.Builder builder = PBBaseCommand.pbbasecommand.newBuilder();
         builder.setSerialNumber(Serial);
@@ -99,6 +100,13 @@ public class PBCommandFactory {
         builder.setVersion(1);
         builder.setInstruction(code);
         builder.setTimestamp(System.currentTimeMillis());
+        return builder.build();
+    }
+
+    public static PBGetCodeRequest.pb_get_code_request getGetCodeRequest(long id, String path) {
+        PBGetCodeRequest.pb_get_code_request.Builder builder = PBGetCodeRequest.pb_get_code_request.newBuilder();
+        builder.setId(id);
+        builder.setPath(path);
         return builder.build();
     }
 }
