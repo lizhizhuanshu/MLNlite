@@ -49,30 +49,18 @@ protobuf {
     protobuf {
         protoc {
             if (osdetector.os == "osx") {
-                artifact = 'com.google.protobuf:protoc:3.0.0:osx-x86_64'
+                artifact = 'com.google.protobuf:protoc:3.25.3:osx-x86_64'
             } else {
-                artifact = 'com.google.protobuf:protoc:3.0.0'
-            }
-        }
-    }
-    plugins {
-        javalite {
-            if (osdetector.os == "osx") {
-                artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0:osx-x86_64'
-            } else {
-                artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+                artifact = 'com.google.protobuf:protoc:3.25.3'
             }
         }
     }
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-                // In most cases you don't need the full Java output
-                // if you use the lite output.
-                remove java
-            }
-            task.plugins {
-                javalite {}
+                java {
+                    option 'lite' // 生成 Java Lite 类
+                }
             }
         }
     }

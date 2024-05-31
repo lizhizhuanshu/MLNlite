@@ -13,7 +13,7 @@ legacySupportV4 = "1.0.0"
 lifecycleCommonVersion = "2.6.2"
 material = "1.10.0"
 mockito = "2.23.0"
-protobuf-lite = "3.0.1"
+protobufJavalite = "3.25.3"
 protobufGradlePluginVersion = "0.9.4"
 kotlin = "1.9.22"
 kotlinCoroutines = "1.7.1"
@@ -32,7 +32,7 @@ legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref 
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 
-protobuf-lite= { group = "com.google.protobuf", name = "protobuf-lite", version.ref = "protobuf-lite"}
+protobuf-lite= { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
 protobuf-gradle-plugin = { module = "com.google.protobuf:protobuf-gradle-plugin", version.ref = "protobufGradlePluginVersion" }
 kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }

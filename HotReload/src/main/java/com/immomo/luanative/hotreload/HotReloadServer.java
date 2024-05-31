@@ -7,7 +7,6 @@
   */
 package com.immomo.luanative.hotreload;
 
-import android.util.Log;
 import android.util.LongSparseArray;
 
 import com.immomo.luanative.codec.PBCommandFactory;
@@ -155,7 +154,6 @@ public class HotReloadServer implements IHotReloadServer {
 
     private void writeMsg(Object msg) {
         if (currentClient != null) {
-            Log.e("HotReloadServer", "writeMsg: " + msg.toString());
             currentClient.writeData(encoder.encode(msg));
         }
     }
