@@ -38,6 +38,7 @@ dependencies {
 
     implementation 'com.alibaba:fastjson:1.1.46.android'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
+    api "com.caverock:androidsvg:1.4"
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     implementation libs.legacy.support.v4
     implementation libs.protobuf.lite
