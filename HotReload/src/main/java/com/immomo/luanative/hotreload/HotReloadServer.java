@@ -14,8 +14,6 @@ import com.immomo.luanative.codec.encode.EncoderFactory;
 import com.immomo.luanative.codec.encode.iEncoder;
 import com.immomo.luanative.codec.protobuf.PBCreateCommand;
 import com.immomo.luanative.codec.protobuf.PBEntryFileCommand;
-import com.immomo.luanative.codec.protobuf.PBGetCodeRequest;
-import com.immomo.luanative.codec.protobuf.PBGetCodeResponse;
 import com.immomo.luanative.codec.protobuf.PBIPAddressCommand;
 import com.immomo.luanative.codec.protobuf.PBMoveCommand;
 import com.immomo.luanative.codec.protobuf.PBReloadCommand;
@@ -269,23 +267,7 @@ public class HotReloadServer implements IHotReloadServer {
             return callbacks.get(id);
         }
     }
-    @Override
-    public byte[] getCode(String path) {
-        GetCodeCallback callback = new GetCodeCallback();
-        long id = callbackId.incrementAndGet();
-        putCallback(id, callback);
-        writeMsg(PBCommandFactory.getGetCodeRequest(id, path));
-        synchronized (callback) {
-            try {
-                callback.wait(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }finally {
-                callbacks.remove(id);
-            }
-        }
-        return callback.code;
-    }
+
 
     //
     //    ---------- usb client
@@ -351,15 +333,6 @@ public class HotReloadServer implements IHotReloadServer {
             PBIPAddressCommand.pbipaddresscommand cmd = (PBIPAddressCommand.pbipaddresscommand) msg;
             String ip = cmd.getMacIPAddress();
             listener.onIpChanged(ip);
-        }else if(msg instanceof PBGetCodeResponse.pb_get_code_response){
-            PBGetCodeResponse.pb_get_code_response response = (PBGetCodeResponse.pb_get_code_response) msg;
-            GetCodeCallback callback = getCallback(response.getId());
-            if(callback != null){
-                callback.code = response.getCode().toByteArray();
-                synchronized (callback) {
-                    callback.notify();
-                }
-            }
         }
     }
 

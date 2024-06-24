@@ -1,7 +1,7 @@
 package com.immomo.mls.maker
 
 import androidx.lifecycle.LifecycleOwner
-import com.example.android.utils.toContext
+import com.immomo.mls.utils.toContext
 import com.immomo.mls.InitData
 import com.immomo.mls.adapter.ScriptReader
 import com.immomo.mls.lite.LuaClient

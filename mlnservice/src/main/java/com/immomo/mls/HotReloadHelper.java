@@ -520,8 +520,20 @@ public class HotReloadHelper {
         }
     }
 
+    public interface CodeProvider{
+        byte[] getCode(String path);
+    }
+
+    private volatile static CodeProvider codeProvider;
+    public static void setCodeProvider(CodeProvider codeProvider) {
+        HotReloadHelper.codeProvider = codeProvider;
+    }
     public static byte[] getCode(String path) {
-        return HotReloadServer.getInstance().getCode(path);
+        CodeProvider provider = codeProvider;
+        if (provider != null) {
+            return provider.getCode(path);
+        }
+        return null;
     }
 
     public static interface Callback {

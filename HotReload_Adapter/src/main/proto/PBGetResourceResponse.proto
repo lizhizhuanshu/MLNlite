@@ -3,10 +3,10 @@ syntax = "proto3";
 import "PBBaseCommand.proto";
 
 option java_package = "com.immomo.luanative.codec.protobuf";
-option java_outer_classname = "PBGetCodeRequest";
+option java_outer_classname = "PBGetResourceResponse";
 
-message pb_get_code_request {
+message pb_get_resource_response {
     pbbasecommand basecommand = 1;
     int64 id = 2;
-    string path =3;
+    bytes data = 3;
 }

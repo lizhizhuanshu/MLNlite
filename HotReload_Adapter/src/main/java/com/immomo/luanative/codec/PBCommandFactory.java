@@ -17,6 +17,7 @@ import com.immomo.luanative.codec.protobuf.PBCloseCommand;
 import com.immomo.luanative.codec.protobuf.PBDeviceCommand;
 import com.immomo.luanative.codec.protobuf.PBEntryFileCommand;
 import com.immomo.luanative.codec.protobuf.PBErrorCommand;
+import com.immomo.luanative.codec.protobuf.PBGetResourceRequest;
 import com.immomo.luanative.codec.protobuf.PBLogCommand;
 import com.immomo.luanative.codec.protobuf.PBPingCommand;
 import com.immomo.luanative.codec.protobuf.PBPongCommand;
@@ -56,8 +57,8 @@ public class PBCommandFactory {
     public static Object getDeviceCommand() {
         PBDeviceCommand.pbdevicecommand.Builder builder = PBDeviceCommand.pbdevicecommand.newBuilder();
         builder.setBasecommand(getBaseCommand(PackageConst.TYPE_DEVICE));
-        builder.setModel(android.os.Build.MODEL);
-        builder.setName(android.os.Build.MODEL);
+        builder.setModel(Build.MODEL);
+        builder.setName(Build.MODEL);
         return builder.build();
     }
 
@@ -102,4 +103,17 @@ public class PBCommandFactory {
         return builder.build();
     }
 
+    public static PBLogCommand.pblogcommand getLogCommand(String log) {
+        PBLogCommand.pblogcommand.Builder builder = PBLogCommand.pblogcommand.newBuilder();
+        builder.setLog(log);
+        builder.setBasecommand(getBaseCommand(PackageConst.TYPE_LOG));
+        return builder.build();
+    }
+
+    public static PBErrorCommand.pberrorcommand getErrorCommand(String error) {
+        PBErrorCommand.pberrorcommand.Builder builder = PBErrorCommand.pberrorcommand.newBuilder();
+        builder.setError(error);
+        builder.setBasecommand(getBaseCommand(PackageConst.TYPE_ERROR));
+        return builder.build();
+    }
 }

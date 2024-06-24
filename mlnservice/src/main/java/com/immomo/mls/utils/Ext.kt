@@ -1,4 +1,4 @@
-package com.example.android.utils
+package com.immomo.mls.utils
 
 import android.content.Context
 import android.os.Looper
@@ -6,7 +6,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.immomo.mls.Constants
-import com.immomo.mls.utils.ScriptBundleParseUtils
 import com.immomo.mls.wrapper.ScriptBundle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/HotReload" />
+            <option value="$PROJECT_DIR$/HotReload_Adapter" />
             <option value="$PROJECT_DIR$/HotReload_Empty" />
             <option value="$PROJECT_DIR$/annotation" />
             <option value="$PROJECT_DIR$/app" />

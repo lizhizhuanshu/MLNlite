@@ -2,8 +2,8 @@ package com.immomo.mls.maker
 
 
 import androidx.lifecycle.LifecycleOwner
-import com.example.android.utils.context
-import com.example.android.utils.toContext
+import com.immomo.mls.utils.context
+import com.immomo.mls.utils.toContext
 import com.immomo.mls.lite.data.ScriptResult
 import com.immomo.mls.wrapper.ScriptBundle
 import kotlinx.coroutines.Dispatchers

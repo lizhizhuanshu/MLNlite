@@ -44,5 +44,4 @@ public interface IHotReloadServer {
 
     String getSerial();
 
-    byte[] getCode(String path);
 }

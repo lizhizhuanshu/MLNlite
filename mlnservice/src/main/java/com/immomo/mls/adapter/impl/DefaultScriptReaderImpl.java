@@ -44,6 +44,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -359,10 +361,11 @@ public class DefaultScriptReaderImpl implements ScriptReader {
             if (isAssetsSingleLua(url)) {//assets目录.lua单文件。直接读取
                 return parseAssetsToBundle(url);
             } else {
-                final String file = checkFilePath(path, name);
+                String file = checkFilePath(path, name);
                 if (file == null) {
-                    throw new ScriptLoadException(ERROR.UNKNOWN_ERROR,
-                            new IllegalStateException(String.format("can not find %s from path: %s", name, path)));
+                    file = path + File.separator + name;
+//                    throw new ScriptLoadException(ERROR.UNKNOWN_ERROR,
+//                            new IllegalStateException(String.format("can not find %s from path: %s", name, path)));
                 }
                 ScriptBundle bundle = parseToBundle(url.toString(), file);
                 setLuaToolInfoToScriptBundle(new File(file), bundle);

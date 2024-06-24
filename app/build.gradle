@@ -49,7 +49,7 @@ dependencies {
     implementation project(':scan')
     implementation project(':mlncore')
     implementation project(':mlnservice')
-    implementation project(':HotReload')
+    implementation project(':HotReload_Adapter')
     implementation project(':annotation')
     kapt project(':processor')
 

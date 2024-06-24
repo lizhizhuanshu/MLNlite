@@ -44,4 +44,5 @@ public interface IHotReloadServer {
 
     String getSerial();
 
+    void setTransporter(Transporter transporter);
 }

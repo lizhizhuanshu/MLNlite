@@ -9,6 +9,7 @@ package com.immomo.luanative.codec.protobuf;
 
 import com.immomo.luanative.codec.proto.PackageConst;
 
+
 public class PBMessageFactory {
 
     public static Object getInstance(int type, byte[] data) throws Exception {

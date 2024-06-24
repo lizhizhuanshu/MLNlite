@@ -64,8 +64,4 @@ public class HotReloadServer implements IHotReloadServer {
         return null;
     }
 
-    @Override
-    public byte[] getCode(String path) {
-        return null;
-    }
 }

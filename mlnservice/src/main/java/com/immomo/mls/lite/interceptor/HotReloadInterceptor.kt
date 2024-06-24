@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.android.utils.context
-import com.example.android.utils.parseToBundleExt
-import com.example.android.utils.runInMain
+import com.immomo.mls.utils.context
+import com.immomo.mls.utils.parseToBundleExt
+import com.immomo.mls.utils.runInMain
 import com.immomo.mls.HotReloadHelper
 import com.immomo.mls.MLSAdapterContainer
 import com.immomo.mls.MLSEngine

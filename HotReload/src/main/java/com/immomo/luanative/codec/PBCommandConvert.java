@@ -62,8 +62,6 @@ public class PBCommandConvert {
             baseCmd = ((PBCreateCommand.pbcreatecommand)obj).getBasecommand();
         } else if (obj instanceof PBIPAddressCommand.pbipaddresscommand) {
             baseCmd = ((PBIPAddressCommand.pbipaddresscommand) obj).getBasecommand();
-        }else if (obj instanceof PBGetCodeRequest.pb_get_code_request) {
-            return PackageConst.TYPE_GET_CODE_REQUEST;
         }
 
         if (baseCmd != null) {
