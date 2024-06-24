@@ -31,6 +31,39 @@ android {
 
 
 
+def sourceDirs = [
+        "../mlncore/build/outputs/aar/",
+        "../mlnservice/build/outputs/aar/",
+        "../HotReload_Adapter/build/outputs/aar/",
+        "../annotation/build/libs",
+        "../processor/build/libs"
+]
+
+def destDir = "build/outputs/dev/"
+
+tasks.register('copyLibs', Copy) {
+    sourceDirs.each { dir ->
+        from(dir) {
+            include '**/*.aar'
+            include '**/*.jar'
+        }
+    }
+    into "${destDir}libs/"
+}
+
+def currentVersion = android.defaultConfig.versionName
+tasks.register("createDevZip",Zip){
+    dependsOn('copyLibs')
+    def fileName = "MLN_Lite_dev_${currentVersion}.zip"
+    def zipFile = file("${destDir}${fileName}")
+    zipFile.delete()
+    from "${destDir}libs/"
+    archiveFileName = fileName
+    destinationDirectory = file(destDir)
+}
+
+
+
 dependencies {
 
     implementation libs.appcompat
